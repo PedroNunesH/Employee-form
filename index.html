@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerênciamento de funcionários</title>
+</head>
+<body>
+    <h1>Formulário de gerenciamento dos funcionários </h1>
+    <p>insira seus dados abaixo</p>
+    <form action="" id="formulario">
+
+        <label for="nome">Insira o nome <br><input type="text" id="nome" name="nome"></label><br>
+        <label for="idade">Insira a idade <br><input type="number" id="idade" name="idade"></label><br>
+        <label for="segmento">Em qual segmento trabalha ? <br><input type="radio" id="gerente" name="segmento" onclick="dadosAdicionais()">Gerência <input type="radio" id="dev" name="segmento" onclick="dadosAdicionais()">Desenvolvimento</label><br>
+        <label for="cargoEspecifico">Insira o seu cargo <br><input type="text" id="cargo" name="cargo"><br></label><br>
+        <div id="dadoGerente"></div>
+        <div id="dadoDev"></div>
+    </form>
+
+    <label for="submit"><input type="submit" id="submit" name="submit"></label>
+
+
+<script>
+
+
+    function dadosAdicionais(){
+
+        if(document.getElementById('gerente').checked){
+
+            var formulario = document.getElementById('adicionais')
+            var novoCampo1 = document.createElement('input')
+            var novaLeg1 = document.createElement('label')
+            novoCampo1.type ="text"
+            novoCampo1.id='departamento'
+            novaLeg1.innerHTML="Qual o departamento <br>"
+            formulario.appendChild(novaLeg1)
+            novaLeg1.appendChild(novoCampo1)
+
+        } 
+        
+        
+        if(document.getElementById('dev').checked){
+            var formulario = document.getElementById('formulario')
+            var novoCampo1 = document.createElement('input')
+            var novaLeg1 = document.createElement('label')
+            novoCampo1.type ="text"
+            novoCampo1.id='linguagem'
+            novaLeg1.innerHTML=" Qual a linguagem de programação em que trabalha?<br>"
+           
+            formulario.appendChild(novaLeg1)
+            novaLeg1.appendChild(novoCampo1)
+        }
+        
+        
+
+    }
+
+    class funcionario{
+
+        constructor(nome,idade,cargo){
+        this.nome = nome;
+        this.idade = idade;
+        this.cargo = cargo;
+        }
+
+        seApresentar(){
+        console.log(`Eu sou o funcionário ${this.nome}, tenho ${this.idade} anos e trabalho como ${this.cargo}`);
+        }
+
+        trabalhar(){
+
+        console.log(`Irei começar agora meu trabalho como ${this.cargo}`);
+        }
+
+    }
+
+    class gerente extends funcionario {
+
+        constructor(nome,idade,cargo,departamento){
+            super(nome,idade,cargo);
+            this.departamento = departamento;
+        }
+
+        gerenciar(){
+            console.log(`Gerenciando agora os projetos no departamento de ${this.departamento}`);
+        }
+    }
+
+        class desenvolvedor extends funcionario {
+        constructor(nome,idade,cargo,linguagem){
+            super(nome,idade,cargo);
+            this.linguagem = linguagem;
+        }
+
+        programar (){
+        console.log( `Começando agora a programar em um novo projeto utilizando ${this.linguagem}`);
+        }
+
+    }
+
+    let ger1 = new gerente ("Fernando","47","Gerente de projetos","Tecnologia",);
+
+    let dev1 = new desenvolvedor("Renan","26","Desenvolvedor Mobile júnior","Swift");
+
+    ger1.seApresentar();
+    ger1.trabalhar();
+    ger1.gerenciar();
+
+    dev1.seApresentar();
+    dev1.trabalhar();
+    dev1.programar();
+
+    </script>
+    
+</body>
+</html>
