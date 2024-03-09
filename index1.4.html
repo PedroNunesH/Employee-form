@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerênciamento de funcionários</title>
+</head>
+<body>
+    <h1>Formulário de gerenciamento dos funcionários </h1>
+    <h2>insira seus dados abaixo</h2>
+    <form action="" id="formulario">
+
+        <label for="nome">Insira o nome <br><input type="text" id="nome" name="nome"></label><br>
+        <label for="idade">Insira a idade <br><input type="number" id="idade" name="idade"></label><br>
+        <label for="segmento">Em qual segmento trabalha ? <br><input type="radio" id="gerente" name="segmento" onclick="dadosAdicionais()" >Gerência <input type="radio" id="dev" name="segmento" onclick="dadosAdicionais()" >Desenvolvimento</label><br>
+        <label for="cargoEspecifico">Insira o cargo <br><input type="text" id="cargo" name="cargo"><br></label><br>
+        <label for="" id="novaLeg"></label>
+        
+    </form>
+
+    <label for="submit"><input type="submit" id="submit" name="submit" onclick="executar()"></label><br>
+    <div id="res"></div>
+
+
+<script>
+   
+
+    function dadosAdicionais(){
+        
+        var formulario = document.getElementById('formulario')
+        var novaLeg = document.getElementById('novaLeg')
+        var novoCampo = document.createElement('input')     
+
+        if(document.getElementById('dev').checked){
+            
+            novaLeg.innerHTML="Em qual linguagem o funcionário tem proficiência ? <br>"
+            novoCampo.type ="text"
+            novoCampo.id='novoCampo'
+            novaLeg.appendChild(novoCampo)  
+            
+        } else if (document.getElementById('gerente').checked){
+            novaLeg.innerHTML="Qual o departamento em que trabalha ? <br>"
+            novoCampo.type ="text"
+            novoCampo.id='novoCampo'
+            novaLeg.appendChild(novoCampo)
+        }
+         
+    }
+    
+
+    
+    class funcionario{
+
+        constructor(nome,idade,cargo){
+        this.nome = nome;
+        this.idade = idade;
+        this.cargo = cargo;
+        }
+
+        seApresentar(){
+        res.innerHTML += `O funcionário ${this.nome}, tem ${this.idade} anos <br>`;
+        }
+
+        trabalhar(){
+
+        res.innerHTML +=`Atualmente trabalha como ${this.cargo} <br>`;
+        }
+
+    }
+
+    class gerente extends funcionario {
+
+        constructor(nome,idade,cargo,departamento){
+            super(nome,idade,cargo);
+            this.departamento = departamento;
+        }
+
+        gerenciar(){
+            res.innerHTML +=`Gerencia agora projetos no departamento de ${this.departamento}<br>`;
+        }
+    }
+
+        class desenvolvedor extends funcionario {
+        constructor(nome,idade,cargo,linguagem){
+            super(nome,idade,cargo);
+            this.linguagem = linguagem;
+        }
+
+        programar (){
+            res.innerHTML += `no momento desenvolve utilizando ${this.linguagem}<br>`;
+        }
+
+    }
+
+
+  
+    function executar(){
+
+        res.innerHTML=""
+
+        /*if(!document.getElementById('gerente').checked && !document.getElementById('dev').checked){
+            window.alert('Selecione o segmento')
+        }*/
+
+        var nome = document.getElementById('nome').value
+        var idade = Number(document.getElementById('idade').value)
+        var cargo = document.getElementById('cargo').value
+
+        if(document.getElementById('gerente').checked){
+
+            var departamento = document.getElementById('novoCampo').value
+            ger1 = new gerente (nome,idade,cargo,departamento);
+            ger1.seApresentar()
+            ger1.trabalhar()
+            ger1.gerenciar()
+        }
+
+        if(document.getElementById('dev').checked){
+            
+            var linguagem = document.getElementById('novoCampo').value 
+            dev1 = new desenvolvedor (nome,idade,cargo,linguagem);
+
+            dev1.seApresentar()
+            dev1.trabalhar()
+            dev1.programar()
+        }
+
+        try{
+
+            
+            if(nome <= 0 || idade <= 0 || cargo <= 0 || novoCampo <=0 ){
+
+                throw new Error("Um ou mais campos não foram preenchidos")
+
+            } else if(!document.getElementById('gerente').checked && !document.getElementById('dev').checked){
+
+                throw new  Error("Segmento não selecionado")
+
+                window.alert('Selecione o segmento')
+
+                res.innerHTML=""
+
+            } else if (nome !== String || cargo !== String || novoCampo !== String  ){
+
+                throw new  Error("Algum campo preenchido com um dado incorreto")
+
+                window.alert('Selecione o segmento')
+            }
+
+
+        } catch (error) {
+
+            console.log('ocorreu uma exceção :' + error.message)
+            window.alert('Um ou mais campos não foram preenchidos')
+
+        }
+
+    }
+    </script>
+    
+</body>
+</html>
